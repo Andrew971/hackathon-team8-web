@@ -1,0 +1,43 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 10
+    commands:
+      # - sudo apt-get update -y && sudo apt-get install -y make apt-transport-https
+      # - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+      # - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+      # - sudo apt-get update -y && sudo apt-get install -y yarn
+      - echo Install started on `date`
+      # - npm install yarn
+      - npm install
+      # - npm run installation
+      - echo Install completed on `date`
+
+  pre_build:
+    commands:
+      - echo pre_build started on `date`
+
+      - echo pre_build completed on `date`
+
+  build:
+    commands:
+      - echo build started on `date`
+      - npm run build
+      # - REACT_APP_PRODUCT_SERVICE_API=${PRODUCT_API} REACT_APP_ORDER_SERVICE_API=${ORDER_API} REACT_APP_USER_MANAGEMENT_SERVICE_API=${USER_API} REACT_APP_AWS_COGNITO_REGION=${COGNITO_REGION} REACT_APP_AWS_COGNITO_POOL_ID=${COGNITO_POOL_ID} REACT_APP_AWS_COGNITO__CLIENT_POOL_ID=${COGNITO__CLIENT_POOL_ID} npm run build
+      - echo build completed on `date`
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo CODEBUILD_BUILD_SUCCEEDING
+artifacts:
+  type: zip
+  files:
+    - '**/*'
+  base-directory: build
+  # discard-paths: yes
+  # cache:
+  #   paths:
+  #     - path
+  #     - path
