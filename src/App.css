@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.rcw-conversation-container > .rcw-header {
+  background-color: red;
+}
+ 
+.rcw-message > .rcw-response {
+  background-color: white;
+  color: black;
+}
