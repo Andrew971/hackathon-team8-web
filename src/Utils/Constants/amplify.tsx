@@ -5,9 +5,15 @@ const {
   REACT_APP_AWS_COGNITO__CLIENT_POOL_ID,
   REACT_APP_AWS_COGNITO__IDENTITY_POOL_ID
 } = process.env
+
+console.log(REACT_APP_AWS_COGNITO_REGION,
+  REACT_APP_AWS_COGNITO_POOL_ID,
+  REACT_APP_AWS_COGNITO__CLIENT_POOL_ID,
+  REACT_APP_AWS_COGNITO__IDENTITY_POOL_ID,)
 export default {
   Auth: {
-    identityPoolId: REACT_APP_AWS_COGNITO__IDENTITY_POOL_ID,
+      // identityPoolId: 'ca-central-1:a621778f-c837-400d-a2d6-d0e3ec4192c5',
+      identityPoolId: REACT_APP_AWS_COGNITO__IDENTITY_POOL_ID,
 
       // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
       // identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
@@ -26,7 +32,7 @@ export default {
       userPoolWebClientId: REACT_APP_AWS_COGNITO__CLIENT_POOL_ID,
 
       // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
-      mandatorySignIn: false,
+      mandatorySignIn: true,
 
       // OPTIONAL - Configuration for cookie storage
       // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
@@ -57,8 +63,7 @@ export default {
       "ScheduleAppointment": {
         "name": "ScheduleAppointment",
         "alias": "$LATEST",
-        "region": "us-east-1",
-        "userId": 'e4d6be5d-7471-4afd-9ccf-4d47c0b4dd17'
+        "region": "us-east-1"
       },
     }
   }

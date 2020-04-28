@@ -7,9 +7,9 @@ import RootContainer from '../App'
 import store from './Redux'
 import {render} from 'react-snapshot'
 import Amplify from 'aws-amplify'
-// import awsconfig from './Constants/amplify'
+import awsconfig from './Constants/amplify'
 import ReactDOM from 'react-dom';
-// Amplify.configure(awsconfig)
+Amplify.configure(awsconfig)
 
 
 export default(element:any) => {
