@@ -1,16 +1,16 @@
-import theme from '../../theme';
+// import theme from '../../theme';
 import { createModel } from '@rematch/core';
 // import { productApi } from '../../Constants/constantApi';
 // import axios from "axios";
 import { RootState } from '../index'
 // import config from '../../Constants/moduleConfig'
-import { DefaultTheme } from 'styled-components'
+// import { DefaultTheme } from 'styled-components'
 export interface State {
   loading:{
     progress:number
     total:number
   },
-  Theme: DefaultTheme,
+  // Theme: DefaultTheme,
   // Config: typeof config,
 }
 
@@ -20,7 +20,7 @@ const model = {
       progress:0,
       total:0
   },
-  Theme: theme['Main'],
+  // Theme: theme['Main'],
   // Config: config
 }, 
   reducers: {

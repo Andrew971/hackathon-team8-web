@@ -1,0 +1,204 @@
+import React from 'react'
+import { Container, Content, Header, Footer, StepButton } from './styles.tsxg'
+
+interface PageType {
+  page: number
+  previous: number | null
+  next: number | null
+  index: number
+  lastPage: number
+}
+interface Props {
+  limit: number
+  currentPage: number
+  totalItem: number
+  goToFirstPage?: (page: PageType) => void
+  goToPage?: (page: PageType) => void
+  goToNextPage?: (page: PageType) => void
+  goToPreviousPage?: (page: PageType) => void
+  goToLastPage?: (page: PageType) => void
+}
+
+const Steps = React.memo((props:any) => {
+
+  const { currentSteps, steps, setStepperProps,stepHistory } = props
+  const Component = steps[currentSteps].component
+
+  return <Component setStepperProps={setStepperProps} steps={steps} stepHistory={stepHistory}/>
+})
+
+const Stepper = React.memo((props: any) => {
+  const { steps } = props
+  const [currentStep,setStep] = React.useState(getFirstStep())
+  const [stepParams,setStepParam] = React.useState()
+  const [stepHistory, setStepHistory] = React.useState({})
+  function getFirstStep () {
+    return Object.keys(steps).find((step:string)=>{
+      const { order } = steps[step]
+      return order === 1
+    })
+  }
+  function setStepperProps (params:any) {
+    setStepParam(params)
+  }
+  async function onClickBack () {
+    try {
+      const onBackProps = stepParams && stepParams.onBack && await stepParams.onBack()
+      currentStep && steps[currentStep].goBack && await steps[currentStep].goBack(onBackProps)
+    
+    const previousStepLabel = Object.keys(steps).find((step:string)=>{
+      const { order } = steps[step]
+      return currentStep && order === steps[currentStep].order - 1 
+    })
+
+    setStep(previousStepLabel)
+  } catch(err) {
+    console.log(err)
+  }
+  }
+
+  async function onClickSkip () {
+    try {
+      const onSkipProps = stepParams && stepParams.onSkip && await stepParams.onSkip()
+      const skipState =currentStep && steps[currentStep].skip && await steps[currentStep].skip(onSkipProps)
+    
+    const nextStepLabel = Object.keys(steps).find((step:string)=>{
+      const { order } = steps[step]
+      return currentStep && order === steps[currentStep].order + 1 
+    })
+    if (currentStep){
+      const newHistory = {
+        ...stepHistory,
+        [currentStep] : {
+          status: 'skipped',
+          state: skipState
+        }
+      }
+      setStepHistory(newHistory)
+    }
+    setStep(nextStepLabel)
+  } catch(err) {
+    console.log(err)
+  }
+  }
+  async function onClickNext () {
+    try {
+        const onNextProps = stepParams && stepParams.onNext && await stepParams.onNext()
+        const nextState = currentStep && steps[currentStep].goNext && await steps[currentStep].goNext(onNextProps)
+      
+      const nextStepLabel = Object.keys(steps).find((step:string)=>{
+        const { order } = steps[step]
+        return currentStep && order === steps[currentStep].order + 1 
+      })
+      if (currentStep){
+      const newHistory = {
+        ...stepHistory,
+        [currentStep] : {
+          status: 'completed',
+          state: nextState
+        }
+      }
+      setStepHistory(newHistory)
+    }
+      setStep(nextStepLabel)
+    } catch(err) {
+      const errorState = currentStep && steps[currentStep].onError && await steps[currentStep].onError(err)
+
+      if (currentStep){
+        const newHistory = {
+          ...stepHistory,
+          [currentStep] : {
+            status: 'Error',
+            state: errorState
+          }
+        }
+        setStepHistory(newHistory)
+      }
+    }
+    
+  }
+  async function onClickDone () {
+    try {
+      const onNextProps = stepParams && stepParams.onDone && await stepParams.onDone()
+      currentStep && steps[currentStep].done && await steps[currentStep].done(onNextProps)
+      if (currentStep){
+        const newHistory = {
+          ...stepHistory,
+          [currentStep] : {
+            status: 'completed'
+          }
+        }
+        setStepHistory(newHistory)
+      }
+  } catch(err) {
+    console.log(err)
+  }
+  }
+  function sortStepsArray (current:string, next:string) {
+    const { order:currentItem } = steps[current]
+    const { order:nextItem } = steps[next]
+    return currentItem - nextItem
+  }
+  // console.log(steps)
+  return (<Container>
+    <Header>
+    {
+      Object.keys(steps).sort(sortStepsArray).map((item:string,index:number)=>{
+        const { backButtonDisabled } = steps[item]
+
+        const isCompleted = stepHistory[item] && stepHistory[item].status === "completed"
+        const isActive = currentStep === item
+        return <>
+        {
+          index > 0 && <div className={`stepper__divider__normal ${isActive ? 'stepper__divider__active' : ''} ${isCompleted ? 'stepper__divider__completed' : ''}`} />
+
+        }
+        <div className={`stepper__content__box ${isActive ?'stepper__content__active':''} ${isCompleted ?'stepper__content__completed':''}`} onClick={()=>{
+          if(!backButtonDisabled){
+            setStep(item)
+          }
+          }}>
+          <div className='stepper__content__icon'>
+            {
+              isCompleted
+              ? <svg focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm-2 17l-5-5 1.4-1.4 3.6 3.6 7.6-7.6L19 8l-9 9z"></path></svg>
+              :<svg viewBox="0 0 24 24" aria-hidden="true" role="presentation"><circle cx="12" cy="12" r="12"></circle><text x="12" y="16" text-anchor="middle">{index +1}</text></svg>
+            }
+            
+          </div>
+          <div className='stepper__content__name'>{item}</div>
+        </div>
+        </>
+      })
+    }
+    </Header>
+    <Content>
+    <Steps setStepperProps={setStepperProps} currentSteps={currentStep} steps={steps} stepHistory={stepHistory} {...props}/>
+    </Content>
+    <Footer>
+      {currentStep && <>
+        {steps[currentStep].order !== 1 && <StepButton onClick={onClickBack} disabled={steps[currentStep].backButtonDisabled}> back </StepButton>}
+        {steps[currentStep].skipAllowed && <StepButton onClick={onClickSkip}> Skip </StepButton>}
+        {steps[currentStep].order < Object.keys(steps).length
+        ? <StepButton onClick={onClickNext} primary> Next </StepButton>
+        : <StepButton onClick={onClickDone} primary> Done </StepButton>
+        }
+        </>
+      }
+    </Footer>
+  </Container>
+
+  )
+})
+
+// LazyCard.propTypes = {
+//   src: PropTypes.string,
+//   preview: PropTypes.string,
+//   offSet: PropTypes.string,
+//   srcSet: PropTypes.string,
+//   sizes: PropTypes.string,
+//   alt: PropTypes.string.isRequired,
+// }
+
+
+export default Stepper

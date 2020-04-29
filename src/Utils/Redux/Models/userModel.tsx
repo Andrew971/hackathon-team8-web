@@ -1,6 +1,7 @@
 import { createModel } from '@rematch/core';
 import { userApi,orderApi } from '../../Constants/api';
 import { CartItem } from './cartModel'
+import { Auth } from 'aws-amplify'
 
 export interface ProductSpecification {
   key: string
@@ -94,37 +95,36 @@ export const userModel = createModel({
 
   },
   effects: (dispatch: any) => ({
-
-    async asyncSubmitProfile(payload: [string, string][], rootState) {
-      if(rootState.userModel.user){
-        const id = rootState.userModel.user.id
-        const data = await userApi.post('/profile',{
-          id,
-          entries: payload
-        })
-        
-        return data;
-      }
-    },
-    async asyncSetGuessProfile(payload: [string, string][], rootState) {
-      let formObject: any = {}
-      payload.forEach(([key,value]) => formObject[key] = value)
+  
+    async signIn(payload: any, rootState) {
       
-      const profile = {
-        First_Name: formObject.firstName,
-        Last_Name: formObject.lastName,
-        Location: {
-          streetName: formObject.address,
-          zipCode: formObject.zipCode,
-          city: formObject.city,
-          state: formObject.state,
-          country: formObject.country,
-        },
-        Email: formObject.email
-      }
-      this.setProfile(profile)
-      return null;
+      const user = await Auth.signIn('andrew.entreprise@gmail.com', 'Littleswak971')
+      console.log('user',user)
+      this.setUser(user)
+      return user
+      
     },
+
+    async signUp(payload: any, rootState) {
+      console.log('payload', payload)
+      const signUpprocess = await Auth.signUp({
+        username: payload.username,
+        password: payload.password,
+        validationData: [ ]  //optional
+      })
+      return signUpprocess
+      
+    },
+
+    async confirmationCode(payload: any, rootState) {
+      
+      const signUpprocess = await Auth.confirmSignUp(payload.username, payload.code, {
+        forceAliasCreation: true
+      })
+      return signUpprocess
+      
+    },
+  
     async asyncGetProfile(payload: any, rootState) {
       
       if(rootState.userModel.user){
@@ -137,35 +137,7 @@ export const userModel = createModel({
       }
     },
 
-    async asyncSendOrder(payload: any, rootState) {
-      if(rootState.userModel.user){
-        const id = rootState.userModel.user.id
-        await orderApi.post(`/order`,{
-          id,
-        delivery: rootState.userModel.profile,
-        items: rootState.cartModel.cartMap,
-        })
-      }else {
-        await orderApi.post(`/order`,{
-          id:'Guest',
-        delivery: rootState.userModel.profile,
-        items: rootState.cartModel.cartMap,
-        })
-      }
-      const emptyCart = dispatch.cartModel.emptyCart
-      emptyCart()
-    },
-    async asyncGetOrder(payload: any, rootState) {
-      if(rootState.userModel.user){
 
-        const id = rootState.userModel.user.id
-        const result = await orderApi.get(`/order?id=${id}`)
-        const { Items } = result.data
-
-        this.setOrderList(Items)
-        return Items
-      }
-    },
 
     async logOut(payload: any, rootState) {
       const emptyCart = dispatch.cartModel.emptyCart

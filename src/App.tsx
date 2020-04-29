@@ -2,9 +2,11 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Widget, addResponseMessage } from 'react-chat-widget';
+import CustomRoute from "./Lib/CustomRoute"
 
 import 'react-chat-widget/lib/styles.css';
 import { Auth,Interactions } from 'aws-amplify'
+import { Routes } from './Utils/Constants/routes'
 
 // import { Interactions } from 'aws-amplify';
 
@@ -21,7 +23,7 @@ function App() {
   //   })
   React.useEffect(() => {
     addResponseMessage('Welcome to this awesome chat!');
-    signIn()
+    // signIn()
     // test()
   }, []);
   async function signIn () {
@@ -61,14 +63,20 @@ function App() {
   Interactions.onComplete('ScheduleAppointment', handleComplete);
   return (
     <div className="App">
-      <header className="App-header">
+
+
+    <CustomRoute
+      routes={Routes}
+    />
+
+      {/* <header className="App-header">
         <Widget
           handleNewUserMessage={handleNewUserMessage}
           profileAvatar={logo}
           title="My new awesome title"
           subtitle="And my cool subtitle"
         />
-      </header>
+      </header> */}
     </div>
   );
 }

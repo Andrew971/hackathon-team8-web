@@ -1,0 +1,373 @@
+import styled from "styled-components"
+import { Media } from '../Config'
+
+const bla = 'rgba(0,0,0,1)';
+
+interface StyledProps {
+  row?: boolean
+  width?: string
+  height?: string
+  justifyContent?: string
+  alignItems?: string
+  primary?: boolean
+}
+export const Container = styled.div<StyledProps>`
+display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    color:black;
+    width: ${(props: any) => props.width ? props.width : '100%'};
+    height: ${(props: any) => props.height ? props.height : 'auto'};
+    font-size:1em;
+    // padding: 1em;
+    background: white;
+    border-radius: .5rem;
+    -webkit-flex-flow: column nowrap;
+    -ms-flex-flow: column nowrap;
+    flex-flow: column nowrap;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: flex-start;
+    justify-items: center;
+    -webkit-align-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    border:0;
+    margin:1em;
+    // box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+    // font-weight:600;
+
+
+${Media.phone`
+
+`}
+
+${Media.tablet`
+
+`}
+
+${Media.laptop`
+
+`}
+
+${Media.desktop`
+
+
+
+`}
+
+  `;
+
+  export const Header = styled.div<StyledProps>`
+  display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    color:black;
+    width: ${(props: any) => props.width ? props.width : '100%'};
+    height: ${(props: any) => props.height ? props.height : 'auto'};
+    font-size:1em;
+    // padding: 1em;
+    background: white;
+    border-radius: .5rem;
+    -webkit-flex-flow: row nowrap;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: flex-start;
+    justify-items: center;
+    -webkit-align-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    border:0;
+    margin:1em;
+    // box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+    // font-weight:600;
+
+
+
+    .stepper__divider__normal {
+      flex: 1 1 auto;
+      width:100%;
+      height:100%;
+    display: block;
+    border-top-style: solid;
+    border-top-width: 2px; 
+    }
+
+    .stepper__divider__active {
+      border-top-color: ${(props:any)=>props.theme.button.cta.primary};
+    }
+    .stepper__divider__completed {
+      border-top-color: ${(props:any)=>props.theme.button.cta.primary};
+    }
+
+    .stepper__content__box{
+      padding-left: 8px;
+    padding-right: 8px;
+    // width: 100%;
+    height: 100%;
+    display: inline-flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor:pointer;
+      & .stepper__content__icon{
+        display: flex;
+        flex-shrink: 0;
+        padding-right: 8px;
+        color:lightgrey;
+        & svg {
+          fill: currentColor;
+    width: 1.5em;
+    height: 1.5em;
+    display: inline-block;
+    font-size: 1.5rem;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    flex-shrink: 0;
+    user-select: none;
+
+    & text {
+      fill: ${(props:any)=>props.theme.button.cta.secondary};
+    font-size: 0.75rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    }
+        }
+      }
+      & .stepper__content__name{
+        // width: 100%;
+        font-weight: 500;
+        min-width:5rem;
+        display: inline-flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: flex-start;
+       
+      }
+    }
+    
+    & .stepper__content__active {
+      font-weight: 500;
+      & .stepper__content__icon{
+        color:${(props:any)=>props.theme.button.cta.primary};
+
+        & svg {
+          & text {
+            fill: rgba(250, 250, 250, 0.87);
+          }
+        }
+      }
+    }
+    & .stepper__content__completed {
+      font-weight: 500;
+      & .stepper__content__icon{
+        color:${(props:any)=>props.theme.button.cta.primary};\
+        & svg {
+          & text {
+            fill: rgba(250, 250, 250, 0.87);
+          }
+        }
+      }
+    }
+${Media.phone`
+padding:.5rem;
+flex-flow: row nowrap;
+.stepper__content__box{
+& .stepper__content__name{
+  display:none;
+}
+}
+`}
+
+${Media.tablet`
+
+`}
+
+${Media.laptop`
+
+`}
+
+${Media.desktop`
+
+
+
+`}
+
+  `;
+  export const Content = styled.div<StyledProps>`
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  color:black;
+  width: ${(props: any) => props.width ? props.width : '100%'};
+  height: ${(props: any) => props.height ? props.height : 'auto'};
+  font-size:1em;
+  padding: 1em;
+  background: white;
+  border-radius: .5rem;
+  -webkit-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: flex-start;
+  justify-items: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  border:0;
+  margin:1em;
+  // box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+  // font-weight:600;
+
+${Media.phone`
+
+ 
+`}
+
+${Media.tablet`
+
+`}
+
+${Media.laptop`
+
+`}
+
+${Media.desktop`
+
+
+
+`}
+  `;
+  export const Footer = styled.div<StyledProps>`
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  color:black;
+  width: ${(props: any) => props.width ? props.width : '100%'};
+  height: ${(props: any) => props.height ? props.height : 'auto'};
+  font-size:1em;
+  padding: 1em;
+  background: white;
+  border-radius: .5rem;
+  -webkit-flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: flex-end;
+  justify-items: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  border:0;
+  margin:1em;
+  // box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+  // font-weight:600;
+
+${Media.phone`
+
+ 
+`}
+
+${Media.tablet`
+
+`}
+
+${Media.laptop`
+
+`}
+
+${Media.desktop`
+
+
+
+`}
+  `;
+
+
+
+export const StepButton = styled.button<StyledProps>`
+
+  display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    color:${(props:any)=>props.primary?'white':'black'};
+    width: auto;
+    // max-width:15rem;
+    height: auto;
+    font-size:1em;
+    background: ${(props:any)=>props.primary?props.theme.button.cta.primary:'none'};
+    padding:1.2em 2.5em;
+    border-radius: .5rem;
+    -webkit-flex-flow: column nowrap;
+    -ms-flex-flow: column nowrap;
+    flex-flow: column nowrap;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: flex-start;
+    justify-items: center;
+    -webkit-align-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    border: 0;
+    // border:${(props:any)=>props.primary?'0':`1px solid ${props.theme.button.cta.secondary}`};
+    margin:1em;
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
+    font-weight:600;
+    &:hover {
+      cursor:pointer;
+      border:${(props:any)=>props.primary?'0':`1px solid ${props.theme.button.cta.secondary}`};
+      background: ${(props:any)=>props.primary?props.theme.button.cta.hover:'none'};
+      
+    }
+${Media.phone`
+
+`}
+
+${Media.tablet`
+
+`}
+
+${Media.laptop`
+
+`}
+
+${Media.desktop`
+
+
+
+`}
+
+  `;

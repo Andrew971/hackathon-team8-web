@@ -63,8 +63,14 @@ export default {
       "ScheduleAppointment": {
         "name": "ScheduleAppointment",
         "alias": "$LATEST",
-        "region": "us-east-1"
+        "region": "us-east-1",
+        // sessionAttributes: { attr1: "val1", attr2: "val2" }
+
       },
-    }
+      // sessionAttributes: { attr1: "val1", attr2: "val2" }
+
+    },
+    sessionAttributes: { attr1: "val1", attr2: "val2" }
+
   }
 }
